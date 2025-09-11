@@ -1,0 +1,67 @@
+# 🧹 Universal Open-Source Disk Wiper
+
+A bootable **open-source disk wiping tool** that works on **any device and filesystem** (HDD, SSD, NVMe).  
+Inspired by DBAN, but modern and flexible.  
+
+⚠️ **Warning:** This tool **permanently destroys all data**. Use with extreme caution!
+
+---
+
+## 🚀 Project Overview
+
+### Goal
+- Bootable USB-based tool to securely wipe disks.  
+- Supports HDDs, SSDs, NVMe drives.  
+- Works regardless of filesystem (operates on block devices).  
+- Open-source and easy to extend.  
+
+---
+
+## 📌 SDLC Phases
+
+### 1. Requirements
+- Must boot without OS installed.  
+- Must provide **autonuke mode** (auto-wipes all disks).  
+- Must provide **interactive menu** for manual disk selection.  
+- Must support standard wipe methods (DoD, Gutmann, Zero-fill).  
+
+### 2. Design
+- Base OS: Minimal Linux (Debian Live or Alpine Linux).  
+- Bootloader: GRUB or Syslinux.  
+- Components:
+  - Disk Detection (lsblk, fdisk).  
+  - Wipe Engine (shred, dd, hdparm, nvme-cli).  
+  - TUI (dialog/whiptail).  
+  - Logging (optional).  
+
+### 3. Implementation
+- Scripts for:
+  - Disk detection.  
+  - Autonuke mode.  
+  - Interactive mode.  
+- ISO build with `debian-live` or `mkisofs`.  
+
+### 4. Testing
+- Unit test: run wipe on dummy files.  
+- Integration test: full flow (boot → detect → wipe).  
+- Validation: ensure data recovery fails.  
+
+### 5. Deployment
+- Publish ISO.  
+- Provide USB flashing instructions.  
+
+### 6. Maintenance
+- Keep dependencies up to date.  
+- Add new wipe methods.  
+- Improve hardware support.  
+
+---
+
+## 📂 Project Structure
+
+--------------------------------------------
+🖥️ Usage
+
+Boot into your custom Linux ISO or live environment.
+
+Copy wiper.sh into /usr/local/bin/ and make it executable:
