@@ -1,0 +1,60 @@
+# ---------------------------------------------------
+# Universal Disk Wiper - .gitignore
+# ---------------------------------------------------
+
+# Build outputs
+build/
+binary/
+chroot/
+cache/
+*.iso
+*.img
+*.qcow2
+
+# Logs
+*.log
+logs/
+config/*.log
+tests/*.log
+
+# Temporary files
+*.tmp
+*.swp
+*.swo
+*.bak
+*.old
+*.orig
+*~
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Icon?
+desktop.ini
+
+# Python (if later added for tooling)
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Shell history (if accidentally copied in)
+.bash_history
+.history
+
+# Generated documentation
+docs/generated/
+README.html
+
+# ISO build metadata
+.config/
+.config.lb
+auto/
+local/
+
+# Lab / testing disks
+lab/*.img
+lab/*.qcow2
+lab/*.vdi
+
