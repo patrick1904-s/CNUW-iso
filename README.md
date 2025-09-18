@@ -4,10 +4,9 @@ A modular, ISO-based, multilingual, open-source **disk wiping tool** that compli
 Bootable via USB/CD-ROM, supports **HDD, SSD, NVMe**, and securely handles **HPA/DCO removal**.  
 
 ---
-
 ##  1. Environment Setup
 - [X] Install build tools: `live-build`, `debootstrap`, `xorriso`, `squashfs-tools`, `syslinux`, `isolinux`.
-- [ ] Set up project directory structure:
+- [X] Set up project directory structure:
 
 ----
 
