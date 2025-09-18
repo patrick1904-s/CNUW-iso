@@ -21,7 +21,7 @@ tests/
 docs/
 build.sh
 
-- [ ] Initialize git repo with `.gitignore` and `README.md`.
+- [X] Initialize git repo with `.gitignore` and `README.md`.
 - [ ] Create test lab with **QEMU/KVM** + virtual disks (HDD/SSD/NVMe simulation).
 
 ---
