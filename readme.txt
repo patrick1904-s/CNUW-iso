@@ -6,7 +6,7 @@ Bootable via USB/CD-ROM, supports **HDD, SSD, NVMe**, and securely handles **HPA
 ---
 
 ##  1. Environment Setup
-- [ ] Install build tools: `live-build`, `debootstrap`, `xorriso`, `squashfs-tools`, `syslinux`, `isolinux`.
+- [X] Install build tools: `live-build`, `debootstrap`, `xorriso`, `squashfs-tools`, `syslinux`, `isolinux`.
 - [ ] Set up project directory structure:
 
 ----
