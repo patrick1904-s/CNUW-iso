@@ -27,7 +27,7 @@ build.sh
 ---
 
 ## 📌 2. Base ISO (Debian Live)
-- [ ] Configure `live-build` for **CLI-only Debian Live (bookworm)**.
+- [X] Configure `live-build` for **CLI-only Debian Live (bookworm)**.
 - [ ] Add dependencies via `config/package-lists/wiper.list.chroot`:
 
 ---
