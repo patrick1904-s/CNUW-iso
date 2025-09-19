@@ -1,7 +1,4 @@
-# ---------------------------------------------------
 # Universal Disk Wiper - .gitignore
-# ---------------------------------------------------
-
 # Build outputs
 build/
 binary/
@@ -57,4 +54,8 @@ local/
 lab/*.img
 lab/*.qcow2
 lab/*.vdi
+
+# Live-build internal stages and locks
+.stage/
+.lock
 
