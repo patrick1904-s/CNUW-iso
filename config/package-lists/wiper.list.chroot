@@ -1,0 +1,10 @@
+# Universal Disk Wiper dependencies
+
+dialog
+whiptail
+nvme-cli
+hdparm
+util-linux
+coreutils
+secure-delete
+
