@@ -42,7 +42,7 @@ coreutils
 secure-delete
 
 ---
-- [ ] Ensure ISO is **hybrid** (bootable from USB & CD-ROM).
+- [X] Ensure ISO is **hybrid** (bootable from USB & CD-ROM).
 
 ---
 
