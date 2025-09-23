@@ -47,7 +47,7 @@ secure-delete
 ---
 
 ## 📌 3. Bootloader (ISOLINUX/SYSLINUX)
-- [ ] Create `config/includes.binary/isolinux.cfg` with:
+- [X] Create `config/includes.binary/isolinux.cfg` with:
 - Clear warning ⚠️ about **PERMANENT DATA DESTRUCTION**.
 - Default entry → autostart `wiper.sh`.
 - Menu option to select language (`--lang=`).
