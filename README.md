@@ -51,7 +51,7 @@ secure-delete
 - Clear warning ⚠️ about **PERMANENT DATA DESTRUCTION**.
 - Default entry → autostart `wiper.sh`.
 - Menu option to select language (`--lang=`).
-- [ ] Add custom boot splash (optional but user-friendly).
+- [X] Add custom boot splash (optional but user-friendly).
 
 ---
 
