@@ -9,7 +9,6 @@ Bootable via USB/CD-ROM, supports **HDD, SSD, NVMe**, and securely handles **HPA
 - [X] Set up project directory structure:
 
 ----
-
 file struture
 
 config/
