@@ -19,13 +19,4 @@ chmod +x config/auto/config
 # Run lb config
 echo "Configuring live-build..." | tee -a "$LOG_FILE"
 cd config/auto
-sudo ./config | tee -a "$LOG_FILE"
-
-# Run the actual ISO build
-echo "Starting ISO build..." | tee -a "$LOG_FILE"
-sudo lb build | tee -a "$LOG_FILE"
-
-# Finished
-echo "Build finished at $(date)" | tee -a "$LOG_FILE"
-echo "ISO should be located in config/binary/"
-
+sudo ./config | tee -a "$LOG_F
