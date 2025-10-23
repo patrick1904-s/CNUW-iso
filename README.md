@@ -55,7 +55,7 @@ secure-delete
 ---
 
 ## 📌 4. Wipe Engine (`wiper.sh`)
-- [ ] POSIX-compliant Bash script with two modes:
+- [X] POSIX-compliant Bash script with two modes:
 - `autonuke` → wipe all detected disks.
 - `interactive` → user selects disk + method.
 - [ ] Supported wipe methods:
