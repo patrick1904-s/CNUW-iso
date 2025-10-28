@@ -58,7 +58,7 @@ secure-delete
 - [X] POSIX-compliant Bash script with two modes:
 - `autonuke` → wipe all detected disks.
 - `interactive` → user selects disk + method.
-- [ ] Supported wipe methods:
+- [X] Supported wipe methods:
 - [ ] **Zero-fill** (`dd if=/dev/zero`).
 - [ ] **Shred** (3-pass + final zero pass).
 - [ ] **NVMe secure erase** (`nvme-cli`).
