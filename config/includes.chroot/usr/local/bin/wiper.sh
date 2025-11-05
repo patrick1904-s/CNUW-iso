@@ -1,104 +1,112 @@
 #!/bin/sh
-# ==============================================
-# CyberNova Wipe Engine (POSIX-Compliant)
-# ==============================================
+# ============================================================================
+# Universal Disk Wiper — POSIX Compliant
 # Modes:
-#   1. autonuke     -> Automatically wipe ALL detected disks.
-#   2. interactive  -> User selects disk + method.
-#
-# Safe, modular, and lightweight for live ISO use.
-# ==============================================
+#   - autonuke     → Wipe all detected disks automatically.
+#   - interactive  → User selects disk + wipe method.
+# ============================================================================
 
-set -eu
-
-# --------- CONFIG ---------
-LANG_DIR="/usr/local/share/wiper/lang"
 LOG_FILE="/var/log/wiper.log"
-WIPE_METHOD="shred"  # default method
+LANG="${1:-en}"
 
-# --------- FUNCTIONS ---------
+###############################################################################
+# Utility Functions
+###############################################################################
 log() {
-    echo "[$(date '+%Y-%m-%d %H:%M:%S')] $*" >> "$LOG_FILE"
+  echo "$(date '+%F %T') | $*" >>"$LOG_FILE"
 }
 
-banner() {
-    printf "\033[1;31m"
-    echo "========================================="
-    echo " ⚠️  CYBERNOVA DISK WIPER  ⚠️"
-    echo "========================================="
-    printf "\033[0m\n"
+require_root() {
+  if [ "$(id -u)" -ne 0 ]; then
+    echo "❌ Error: This script must be run as root."
+    exit 1
+  fi
 }
 
-detect_disks() {
-    # Detect all block devices except loopback, CD-ROMs, etc.
-    lsblk -dn -o NAME,TYPE | awk '$2=="disk"{print "/dev/"$1}'
+###############################################################################
+# Zero-Fill Wipe Method
+###############################################################################
+wipe_zero_fill() {
+  DISK="$1"
+  echo "⚠️  Starting zero-fill wipe on $DISK ..."
+  log "[INFO] Starting zero-fill on $DISK"
+
+  if [ ! -b "$DISK" ]; then
+    echo "❌ Error: $DISK is not a valid block device."
+    log "[ERROR] Invalid device: $DISK"
+    return 1
+  fi
+
+  dd if=/dev/zero of="$DISK" bs=1M status=progress conv=fsync
+  if [ $? -eq 0 ]; then
+    echo "✅ Zero-fill completed successfully on $DISK"
+    log "[SUCCESS] Zero-fill completed on $DISK"
+  else
+    echo "❌ Zero-fill failed on $DISK"
+    log "[FAILURE] Zero-fill failed on $DISK"
+  fi
 }
 
-wipe_disk() {
-    disk="$1"
-    method="$2"
-    log "Wiping $disk using $method"
-    echo "Wiping $disk..."
-    case "$method" in
-        dd)
-            dd if=/dev/zero of="$disk" bs=1M status=progress || true
-            ;;
-        shred)
-            shred -v -n 3 "$disk" || true
-            ;;
-        blkdiscard)
-            blkdiscard "$disk" || true
-            ;;
-        *)
-            echo "Unknown method: $method" >&2
-            ;;
-    esac
-    sync
-    log "Completed wiping $disk"
+###############################################################################
+# Autonuke Mode - Wipe All Disks
+###############################################################################
+autonuke() {
+  echo "⚠️  AUTONUKE MODE ENABLED: All disks will be wiped!"
+  log "[INFO] Autonuke mode started"
+
+  for DISK in /dev/sd? /dev/nvme?n?; do
+    if [ -b "$DISK" ]; then
+      wipe_zero_fill "$DISK"
+    fi
+  done
+
+  log "[INFO] Autonuke mode completed"
+  echo "✅ All disks wiped (Zero-fill)."
 }
 
-autonuke_mode() {
-    banner
-    echo "🚨 AUTO-NUKE MODE ACTIVATED 🚨"
-    echo "This will destroy ALL DATA on all detected drives!"
-    echo "Press Ctrl+C to cancel within 10 seconds..."
-    sleep 10
-    for d in $(detect_disks); do
-        wipe_disk "$d" "$WIPE_METHOD"
-    done
-    echo "✅ All disks wiped successfully."
+###############################################################################
+# Interactive Mode - User Chooses Disk + Method
+###############################################################################
+interactive() {
+  echo "=== Interactive Disk Wiper ==="
+  echo "Available Disks:"
+  lsblk -d -o NAME,SIZE,MODEL
+
+  echo
+  echo "Enter disk name (e.g., sda or nvme0n1):"
+  read -r DISK
+  DISK="/dev/$DISK"
+
+  echo
+  echo "Select Wipe Method:"
+  echo "1) Zero-fill (dd if=/dev/zero)"
+  read -r METHOD
+
+  case "$METHOD" in
+  1)
+    wipe_zero_fill "$DISK"
+    ;;
+  *)
+    echo "❌ Invalid selection."
+    ;;
+  esac
 }
 
-interactive_mode() {
-    banner
-    echo "INTERACTIVE MODE"
-    echo ""
-    echo "Detected disks:"
-    echo ""
-    detect_disks
-    echo ""
-    printf "Enter disk to wipe (e.g. /dev/sda): "
-    read -r target
-    printf "Select method (dd/shred/blkdiscard): "
-    read -r method
-    wipe_disk "$target" "$method"
-    echo "✅ Done."
-}
+###############################################################################
+# Main Entry Point
+###############################################################################
+require_root
 
-usage() {
-    echo "Usage: $0 [autonuke|interactive]"
-}
-
-# --------- ENTRY POINT ---------
-case "${1:-}" in
-    autonuke)
-        autonuke_mode
-        ;;
-    interactive)
-        interactive_mode
-        ;;
-    *)
-        usage
-        ;;
+MODE="$1"
+case "$MODE" in
+autonuke)
+  autonuke
+  ;;
+interactive)
+  interactive
+  ;;
+*)
+  echo "Usage: $0 [autonuke|interactive]"
+  exit 1
+  ;;
 esac
-
